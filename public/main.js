@@ -1,5 +1,5 @@
 (function() {
-  window.baseURL = 'http://localhost';
+  window.baseURL = '';
   window.botID = '174603896990203905';
   twemoji.base = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/2.4/2/';
   window.onload = function () {
