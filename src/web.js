@@ -1,6 +1,4 @@
-(function() {
-  window.baseURL = '';
-  window.botID = '174603896990203905';
+export default function () {
   twemoji.base = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/2.4/2/';
   window.onload = function () {
     new ClipboardJS('.copyBtn', {
@@ -161,4 +159,4 @@
     var syntaxTree = parse(text);
     return htmlOutput(syntaxTree);
   }
-})();
+}
