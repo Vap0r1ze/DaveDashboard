@@ -4,7 +4,7 @@
         @click="prev">
       <i class="fa fa-chevron-left text-sm"></i>
     </div>
-    <div v-for="i in displayedPages" :key="i" class="btnPage"
+    <div v-for="i in displayedPages" :key="i" class="btnPage global-trans-ignore"
       :class="{ current: page === i }" @click="select(i)">
       <span>{{i}}</span>
     </div>

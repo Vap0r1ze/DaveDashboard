@@ -145,7 +145,8 @@ export default {
         this.unread++
     },
     scrollToBottom () {
-      this.$refs.logs.scrollTop = this.$refs.logs.scrollHeight
+      if (this.$refs.logs)
+        this.$refs.logs.scrollTop = this.$refs.logs.scrollHeight
     },
     toggleAutoscroll () {
       this.autoscroll = !this.autoscroll
@@ -236,7 +237,7 @@ export default {
   }
   &.long { width: calc(100vw - 4rem - (2rem + 10px)); }
   right: calc(2rem + 10px);
-  transition: width .3s ease;
+  transition: width .3s ease-in-out;
   width: calc(100vw - 18rem - (2rem + 10px));
 }
 </style>

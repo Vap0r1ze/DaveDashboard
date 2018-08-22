@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     open () {
-      this.$emit('open', this.thread.id)
+      this.$emit('open', this.thread)
     },
     updateRelativeTime () {
       this.formattedTime = moment.utc(this.thread.created_at).fromNow()

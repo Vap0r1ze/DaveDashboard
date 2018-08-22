@@ -2,17 +2,16 @@
   <div id="app-root" :class="themeName">
     <div class="app">
       <Loader class="h-screen" v-if="!connected"/>
-      <NoThreads v-else-if="!this.threads.length"/>
-      <div v-else class="flex">
+      <div class="flex" v-else>
         <Sidebar :users="users" :selected="user" :area="area"
           :settingsCategory="settingsCategory" @selectUser="selectUser"
           @open="open" @selectCategory="selectCategory" ref="sidebar"/>
         <div class="flex-1 h-screen">
           <Settings v-if="area === 'settings'" :settings="settings"
             @changeSetting="changeSetting" :category="settingsCategory"/>
-          <Thread v-else-if="thread" :thread="this.threads.find(thread => thread.id === this.thread)"
+          <Thread v-else-if="thread" :thread="thread"
             :settings="settings" @close="openThread(null)" ref="thread"/>
-          <ThreadTable v-else-if="area === 'threads'" :threads="threads" :user="user"
+          <ThreadTable v-else-if="area === 'threads'" :user="user"
             :settings="settings" @openThread="openThread" ref="threads"/>
         </div>
       </div>
@@ -21,7 +20,6 @@
 </template>
 
 <script>
-import NoThreadsPage from './components/NoThreadsPage.vue'
 import Sidebar from './components/Sidebar.vue'
 import Settings from './components/Settings.vue'
 import ThreadTable from './components/ThreadTable.vue'
@@ -30,12 +28,13 @@ import Loader from './components/Loader.vue'
 
 export default {
   components: {
-    NoThreadsPage, Sidebar, Settings, ThreadTable, Thread, Loader
+    Sidebar, Settings, ThreadTable, Thread, Loader
   },
   data () {
     return {
       threads: [],
       user: null,
+      users: [],
       thread: null,
       connected: false,
       theme: JSON.parse(localStorage.theme || '0') || 'dark',
@@ -45,11 +44,7 @@ export default {
       daveAvi: JSON.parse(localStorage.daveAvi || 'false'),
       devMode: JSON.parse(localStorage.devMode || 'false'),
       area: localStorage.area || 'threads',
-      settingsCategory: localStorage.settingsCategory || 'themes',
-      guildRoles: [],
-      guildUsers: [
-        { id: '1', name: 'Clyde', discriminator: '0000' }
-      ]
+      settingsCategory: localStorage.settingsCategory || 'themes'
     }
   },
   watch: {
@@ -59,17 +54,6 @@ export default {
     }
   },
   computed: {
-    users () {
-      let allUsers = this.threads.map(thread => ({ id: thread.user_id, name: thread.user_name }))
-      let uniqUsers = allUsers.filter((u, i) => allUsers.findIndex(_ => _.id === u.id) === i)
-      return uniqUsers.sort((a, b) => {
-        if (a.name.toLowerCase() < b.name.toLowerCase())
-          return -1
-        if (a.name.toLowerCase() > b.name.toLowerCase())
-          return 1
-        return 0
-      })
-    },
     themeName () {
       return {
         [`theme-${this.theme}`]: true
@@ -90,16 +74,6 @@ export default {
     selectUser (id) {
       this.user = id
     },
-    connect () {
-      superagent.get(`${baseURL}/threads`).end((err, res) => {
-        if (err) {
-          setTimeout(this.connect, 8000)
-        } else {
-          this.threads.push(...res.body)
-          this.connected = true
-        }
-      })
-    },
     changeSetting (setting, value) {
       localStorage[setting] = JSON.stringify(value)
       this[setting] = value
@@ -112,8 +86,8 @@ export default {
       localStorage.settingsCategory = category
       this.settingsCategory = category
     },
-    openThread (id) {
-      this.thread = id
+    openThread (thread) {
+      this.thread = thread
     },
     removeHash () {
       if (window.location.hash)
@@ -121,29 +95,36 @@ export default {
     }
   },
   created () {
-    // Initial threads
-    this.connect()
+    // Initial users
+    superagent.get(baseURL + '/users').end((err, res) => {
+      if (err) {
+        console.log(err)
+      } else {
+        this.users.push(...res.body)
+        this.connected = true
+      }
+    })
 
     // Events
     es.addEventListener('threadOpen', ev => {
-      let data = JSON.parse(ev.data)
-			let { thread } = data
-      this.threads.push(thread)
+      // let data = JSON.parse(ev.data)
+			// let { thread } = data
+      // this.threads.push(thread)
       if (this.$refs.threads)
-        this.$refs.threads.sortThreads()
+        this.$refs.threads.refreshThreads(true)
     })
     es.addEventListener('threadClose', ev => {
-      let data = JSON.parse(ev.data)
-			let { thread } = data
-      let oldThread = this.threads.find(t => t.id === thread.id)
-      this.threads.splice(this.threads.indexOf(oldThread), 1, thread)
+      // let data = JSON.parse(ev.data)
+			// let { thread } = data
+      // let oldThread = this.threads.find(t => t.id === thread.id)
+      // this.threads.splice(this.threads.indexOf(oldThread), 1, thread)
       if (this.$refs.threads)
-        this.$refs.threads.sortThreads()
+        this.$refs.threads.refreshThreads(true)
     })
     es.addEventListener('newMessage', ev => {
       let data = JSON.parse(ev.data)
       let { message } = data
-      if (this.$refs.thread && message.thread_id === this.thread)
+      if (this.$refs.thread && message.thread_id === this.thread.id)
         this.$refs.thread.addMessage(message)
     })
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    No threads found
+    <span>No threads found</span>
   </div>
 </template>
 
