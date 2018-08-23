@@ -7,6 +7,3 @@ node_modules
 
 # Dist
 dist
-
-# Config
-src/config.js
