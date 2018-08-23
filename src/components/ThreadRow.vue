@@ -1,5 +1,5 @@
 <template>
-  <tr class="select-none" @click="open">
+  <tr class="select-none h-8" @click="open">
     <td class="thread-id">
       <code class="text-sm tracking-tight mr-2">{{ formattedTime }}</code>
     </td>
@@ -95,7 +95,7 @@ td {
 	@include themify {
     background: themed('bg-dark-2');
   }
-	padding: $spacing * .5rem $spacing * .75rem;
+	padding: 0 $spacing * .75rem;
   &.text-right { text-align: right; }
   transition: padding 0.6s ease;
   text-align: center;

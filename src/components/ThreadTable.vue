@@ -32,7 +32,7 @@
         <ThreadRow v-for="thread in threads" :key="thread.id"
           :thread="thread" :settings="settings" @open="openThread"/>
         <tr v-if="!threads.length" class="loader">
-          <td colspan="4">
+          <td colspan="4" :style="{ height: `${settings.pageSize * 2}rem` }">
             <Loader/>
           </td>
         </tr>
@@ -145,7 +145,6 @@ th:last-child {
     }
     border-bottom-left-radius: $spacing * .5rem;
     border-bottom-right-radius: $spacing * .5rem;
-    height: 24rem;
     padding: 0;
   }
 }
