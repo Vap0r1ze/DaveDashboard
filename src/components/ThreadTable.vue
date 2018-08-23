@@ -39,7 +39,8 @@
       </tbody>
     </table>
     <Paginator v-if="pageCount > 1" :pageCount="pageCount"
-        :page="page" @select="selectPage"/>
+      :page="page" @select="selectPage"/>
+    <p class="result-count font-semibold text-center">{{ threads.length }} out of {{ threadCount }} results</p>
   </div>
 </template>
 
@@ -108,6 +109,7 @@ export default {
         } else {
           this.pageCount = Math.ceil(res.body.total / this.settings.pageSize)
           this.threads = res.body.threads
+          this.threadCount = res.body.total
         }
       })
     }
@@ -146,6 +148,11 @@ th:last-child {
     border-bottom-left-radius: $spacing * .5rem;
     border-bottom-right-radius: $spacing * .5rem;
     padding: 0;
+  }
+}
+.result-count {
+  @include themify {
+    color: themed('text-muted');
   }
 }
 </style>
