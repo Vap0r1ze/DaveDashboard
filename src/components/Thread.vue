@@ -152,6 +152,8 @@ export default {
       this.autoscroll = !this.autoscroll
     },
     parseMessage (message) {
+      if (typeof message != 'string')
+        return `${message}`
       message = processMarkdown(message.replace(/\n/g, '\n\n'))
       message = twemoji.parse(message)
       return message.replace(/(<br\/>)+$/, '')
