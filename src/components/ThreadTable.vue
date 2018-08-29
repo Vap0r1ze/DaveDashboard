@@ -7,7 +7,7 @@
           <div class="sort" @click="sortTime">
             <span>Created At</span>
             <div class="ml-2 inline-block">
-              <i v-if="sort !== 'time'"
+              <i v-if="sort !== 'created_at'"
                 class="compare fa fa-sort"></i>
               <i v-else-if="reverse" class="compare fa fa-sort-asc"></i>
               <i v-else class="compare fa fa-sort-desc"></i>
@@ -63,7 +63,8 @@ export default {
       page: 1,
       pageCount: 1,
       reverse: true,
-      sort: 'status'
+      sort: 'status',
+      threadCount: 0
     }
   },
   watch: {
@@ -81,8 +82,8 @@ export default {
       this.refreshThreads()
     },
     sortTime () {
-      if (this.sort !== 'time')
-        this.sort = 'time'
+      if (this.sort !== 'created_at')
+        this.sort = 'created_at'
       else
         this.reverse = !this.reverse
       this.refreshThreads()
