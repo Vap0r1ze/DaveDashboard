@@ -24,6 +24,10 @@
           <p class="text-sm" ref="note">{{ note }}</p>
         </div>
       </div>
+      <div class="btnMsgToggle tippy-l select-none flex items-center justify-center w-8"
+        :class="{ on: showMessages }" title="Toggle Channel Messages" @click="toggleMsgs">
+        <i class="text-lg fa fa-check"></i>
+      </div>
       <div v-if="settings.devMode" class="flex flex-col w-8">
         <div class="btnOther copyBtn tippy-l flex-1 w-8 select-none flex items-center justify-center"
           :title="'Copy User ID'" :data-clipboard-text="thread.user_id">
@@ -37,7 +41,8 @@
     </div>
     <div v-if="initialMessages && logs.length" class="flex-1 scroller px-8 flex relative" ref="logs" @scroll="updateScroll">
       <div class="flex-1">
-        <Log v-for="log in logs" :key="log.id" :log="log" :settings="settings"/>
+        <Log v-for="log in logs" v-if="showMessages === (log.type === 2)" :key="log.id"
+          :log="log" :settings="settings"/>
       </div>
     </div>
     <Loader class="flex-1" v-else-if="!initialMessages"/>
@@ -76,7 +81,8 @@ export default {
       accountAge: null,
       initialMessages: false,
       atBottom: true,
-      unread: 0
+      unread: 0,
+      showMessages: false
     }
   },
   watch: {
@@ -111,10 +117,10 @@ export default {
             }, 0)
           }
           break
-        case 3: case 4:
+        case 2: case 3: case 4:
           if (this.logs.length && (
             this.logs.slice(-1)[0].user_id === message.user_id
-            && (this.logs.slice(-1)[0].reply === (message.message_type === 4))
+            && (this.logs.slice(-1)[0].type === message.message_type)
             && moment.utc(message.created_at).local().format('YYMMDDHH')
               === moment.utc(this.logs.slice(-1)[0].created_at).local().format('YYMMDDHH')
           )) {
@@ -129,7 +135,7 @@ export default {
               user_id: message.user_id,
               user_name: message.user_name,
               created_at: message.created_at,
-              reply: message.message_type === 4,
+              type: message.message_type,
               messages: [ {
                 id: message.id,
                 dm_id: message.dm_message_id || null,
@@ -161,6 +167,9 @@ export default {
     updateScroll (ev) {
       let el = ev.target
       this.atBottom = el.scrollTop >= (el.scrollHeight - el.offsetHeight - 75)
+    },
+    toggleMsgs () {
+      this.showMessages = !this.showMessages
     }
   },
   created () {
@@ -187,10 +196,19 @@ export default {
     background: themed('bg-dark-1');
   }
 }
-.btnBack {
+.btnMsgToggle {
   @include themify {
-    background: $red;
+    &.on i {
+      // -webkit-text-stroke: 1px #fff;
+      color: themed('primary');
+    }
+    background: themed('bg-dark-3');
   }
+  color: #fff;
+  cursor: pointer;
+}
+.btnBack {
+  background: $red;
   color: #fff;
   cursor: pointer;
 }

@@ -6,7 +6,7 @@
       </div>
       <div class="flex-1">
         <p class="mb-3">
-          <User class="font-semibold mr-2" :user="log.user_name" :reply="log.reply"/>
+          <User class="font-semibold mr-2" :user="log.user_name" :reply="log.type === 4"/>
           <span class="timestamp">{{formattedTime}}</span>
         </p>
           <div v-for="msg in log.messages" class="mt-2"
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getAvatarURL (log) {
-      let id = this.settings.daveAvi && !log.reply
+      let id = this.settings.daveAvi && !(log.type === 4)
         ? botID
         : log.user_id
       let url = `${baseURL}/avatars/${id}`
