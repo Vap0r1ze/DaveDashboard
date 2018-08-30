@@ -5,5 +5,8 @@
 # Node
 node_modules
 
+# Config
+src/config.js
+
 # Dist
 dist
