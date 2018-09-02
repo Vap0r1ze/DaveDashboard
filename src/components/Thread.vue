@@ -198,7 +198,10 @@ export default {
     else
       superagent.get(`${baseURL}/threads/${this.$route.params.id}`).end((err, res) => {
         if (err) {
-          console.log(err)
+          if (res.status === 404)
+            this.$router.push('/')
+          else
+            console.log(err)
         } else {
           this.thread = res.body
           this.getLogs()
