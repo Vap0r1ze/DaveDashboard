@@ -80,10 +80,6 @@ export default {
         this.$router.push({ name: 'thread', params: { id: thread.id } })
       else
         this.$router.push('/')
-    },
-    removeHash () {
-      if (window.location.hash)
-        history.pushState("", document.title, location.pathname + location.search)
     }
   },
   created () {

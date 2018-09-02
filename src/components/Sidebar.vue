@@ -114,7 +114,6 @@ export default {
     transform: rotateZ(180deg);
   }
   & .searchbar {
-    // display: none;
     width: 0px;
     padding: 0px;
   }

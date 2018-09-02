@@ -36,7 +36,6 @@ export default {
 .user {
   cursor: pointer;
   border-radius: $spacing * .25rem;
-  // padding: $spacing * .5rem $spacing * .725rem;
   transition: padding 0.3s ease, border-radius 0.3s ease;
 }
 .user:hover:not(.selected) {

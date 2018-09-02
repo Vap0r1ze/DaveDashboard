@@ -75,11 +75,8 @@ export default {
 }
 .timestamp {
   @include themify {
-    // background: themed('bg-dark-2');
     color: mix(themed('bg'), themed('text'), 20%)
   }
-  // border-radius: .25rem;
-  // padding: .125rem .5rem;
 }
 .log {
   & + & {

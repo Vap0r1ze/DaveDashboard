@@ -222,7 +222,6 @@ export default {
 .btnMsgToggle {
   @include themify {
     &.on i {
-      // -webkit-text-stroke: 1px #fff;
       color: themed('primary');
     }
     background: themed('bg-dark-3');
