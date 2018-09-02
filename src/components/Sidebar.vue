@@ -7,13 +7,11 @@
           <i class="text-xl global-trans-ignore fa fa-arrow-left"></i>
         </div>
         <router-link v-if="$route.name === 'settings'" to="/"
-          class="btn-threads flex flex-1 items-center justify-center w-8 h-8"
-          @click="openThreads">
+          class="btn-threads flex flex-1 items-center justify-center w-8 h-8">
           <i class="fa fa-users"></i>
         </router-link>
         <router-link v-else :to="`/settings/${settingsCategory}`"
-          class="btn-settings flex flex-1 items-center justify-center w-8 h-8"
-          @click="openSettings">
+          class="btn-settings flex flex-1 items-center justify-center w-8 h-8">
           <i class="text-xl fa fa-cog"></i>
         </router-link>
       </div>
@@ -74,12 +72,6 @@ export default {
     },
     collapse () {
       this.collapsed = !this.collapsed
-    },
-    openSettings () {
-      this.$emit('open', 'settings')
-    },
-    openThreads () {
-      this.$emit('open', 'threads')
     },
     selectCategory (category) {
       this.$emit('selectCategory', category)

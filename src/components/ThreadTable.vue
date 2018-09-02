@@ -113,10 +113,19 @@ export default {
           this.threadCount = res.body.total
         }
       })
+    },
+    softRefreshThreads () {
+      this.refreshThreads(true)
     }
   },
   created () {
+    es.addEventListener('threadOpen', this.softRefreshThreads)
+    es.addEventListener('threadClose', this.softRefreshThreads)
     this.refreshThreads()
+  },
+  destroyed () {
+    es.removeEventListener('threadOpen', this.softRefreshThreads)
+    es.removeEventListener('threadClose', this.softRefreshThreads)
   }
 }
 </script>

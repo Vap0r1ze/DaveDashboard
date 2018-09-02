@@ -3,9 +3,9 @@
     <div class="app">
       <Loader class="h-screen" v-if="!connected"/>
       <div class="flex" v-else>
-        <Sidebar :users="users" :selected="user" :area="area"
+        <Sidebar :users="users" :selected="user"
           :settingsCategory="settingsCategory" @selectUser="selectUser"
-          @open="open" @selectCategory="selectCategory" ref="sidebar"/>
+          @selectCategory="selectCategory" ref="sidebar"/>
         <div class="flex-1 h-screen">
           <router-view :_thread="thread" :settings="settings" :category="settingsCategory"
             :user="user"
@@ -26,7 +26,6 @@ export default {
   },
   data () {
     return {
-      threads: [],
       user: null,
       users: [],
       thread: null,
@@ -37,7 +36,6 @@ export default {
       timeRelative: JSON.parse(localStorage.timeRelative || 'false'),
       daveAvi: JSON.parse(localStorage.daveAvi || 'false'),
       devMode: JSON.parse(localStorage.devMode || 'false'),
-      area: localStorage.area || 'threads',
       settingsCategory: localStorage.settingsCategory || 'themes'
     }
   },
@@ -72,10 +70,6 @@ export default {
       localStorage[setting] = JSON.stringify(value)
       this[setting] = value
     },
-    open (area) {
-      localStorage.area = area
-      this.area = area
-    },
     selectCategory (category) {
       localStorage.settingsCategory = category
       this.settingsCategory = category
@@ -101,16 +95,6 @@ export default {
         this.users.push(...res.body)
         this.connected = true
       }
-    })
-
-    // Events
-    es.addEventListener('threadOpen', ev => {
-      if (this.$refs.threads)
-        this.$refs.threads.refreshThreads(true)
-    })
-    es.addEventListener('threadClose', ev => {
-      if (this.$refs.threads)
-        this.$refs.threads.refreshThreads(true)
     })
   }
 }
