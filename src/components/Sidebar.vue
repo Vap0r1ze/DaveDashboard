@@ -6,30 +6,33 @@
           @click="collapse">
           <i class="text-xl global-trans-ignore fa fa-arrow-left"></i>
         </div>
-        <div v-if="area === 'settings'"
+        <router-link v-if="$route.name === 'settings'" to="/"
           class="btn-threads flex flex-1 items-center justify-center w-8 h-8"
           @click="openThreads">
           <i class="fa fa-users"></i>
-        </div>
-        <div v-else
-          class="btn-threads flex flex-1 items-center justify-center w-8 h-8"
+        </router-link>
+        <router-link v-else :to="`/settings/${settingsCategory}`"
+          class="btn-settings flex flex-1 items-center justify-center w-8 h-8"
           @click="openSettings">
           <i class="text-xl fa fa-cog"></i>
-        </div>
+        </router-link>
       </div>
-      <UserSearch v-if="area === 'threads'" @update="updateSearch"/>
-      <div v-else-if="area === 'settings'" class="area-title flex-1 flex justify-center items-center">
+      <div v-if="$route.name === 'settings'" class="area-title flex-1 flex justify-center items-center">
         <p class="text-3xl select-none">Settings</p>
       </div>
+      <UserSearch v-else :_search="search" @update="updateSearch"/>
     </div>
     <div v-if="collapsed"></div>
-    <SettingsCategories v-else-if="area === 'settings'" :category="settingsCategory"
+    <SettingsCategories v-else-if="$route.name === 'settings'" :category="settingsCategory"
       @select="selectCategory"/>
     <NoUsers v-else-if="!this.searchedUsers.length"/>
-    <div v-else class="scroller-small flex-1 px-2">
-        <UserTab v-for="user in searchedUsers" :key="user.id"
-          :selected="selected === user.id" :user="user" @selectUser="selectUser"/>
-    </div>
+    <virtual-scroller v-else :items="searchedUsers" item-height="40"
+      class="scroller-small flex-1 px-2">
+      <template slot-scope="props">
+        <UserTab :selected="selected === props.item.id" :user="props.item"
+          @selectUser="selectUser"/>
+      </template>
+    </virtual-scroller>
   </div>
 </template>
 
@@ -46,7 +49,6 @@ export default {
   props: {
     users: { type: Array, required: true },
     selected: String,
-    area: { type: String, required: true },
     settingsCategory: { type: String, required: true }
   },
   data () {
@@ -107,7 +109,9 @@ export default {
   @include themify {
     background: themed('bg-dark-3');
   }
+  color: #fff;
   cursor: pointer;
+  text-decoration: none;
 }
 .area-title {
   overflow: hidden;

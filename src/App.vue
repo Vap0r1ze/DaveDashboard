@@ -7,12 +7,9 @@
           :settingsCategory="settingsCategory" @selectUser="selectUser"
           @open="open" @selectCategory="selectCategory" ref="sidebar"/>
         <div class="flex-1 h-screen">
-          <Settings v-if="area === 'settings'" :settings="settings"
-            @changeSetting="changeSetting" :category="settingsCategory"/>
-          <Thread v-else-if="thread" :thread="thread"
-            :settings="settings" @close="openThread(null)" ref="thread"/>
-          <ThreadTable v-else-if="area === 'threads'" :user="user"
-            :settings="settings" @openThread="openThread" ref="threads"/>
+          <router-view :_thread="thread" :settings="settings" :category="settingsCategory"
+            :user="user"
+            @changeSetting="changeSetting" @close="openThread(null)" @openThread="openThread"/>
         </div>
       </div>
     </div>
@@ -21,14 +18,11 @@
 
 <script>
 import Sidebar from './components/Sidebar.vue'
-import Settings from './components/Settings.vue'
-import ThreadTable from './components/ThreadTable.vue'
-import Thread from './components/Thread.vue'
 import Loader from './components/Loader.vue'
 
 export default {
   components: {
-    Sidebar, Settings, ThreadTable, Thread, Loader
+    Sidebar, Loader
   },
   data () {
     return {
@@ -88,6 +82,10 @@ export default {
     },
     openThread (thread) {
       this.thread = thread
+      if (thread)
+        this.$router.push({ name: 'thread', params: { id: thread.id } })
+      else
+        this.$router.push('/')
     },
     removeHash () {
       if (window.location.hash)
@@ -107,39 +105,13 @@ export default {
 
     // Events
     es.addEventListener('threadOpen', ev => {
-      // let data = JSON.parse(ev.data)
-			// let { thread } = data
-      // this.threads.push(thread)
       if (this.$refs.threads)
         this.$refs.threads.refreshThreads(true)
     })
     es.addEventListener('threadClose', ev => {
-      // let data = JSON.parse(ev.data)
-			// let { thread } = data
-      // let oldThread = this.threads.find(t => t.id === thread.id)
-      // this.threads.splice(this.threads.indexOf(oldThread), 1, thread)
       if (this.$refs.threads)
         this.$refs.threads.refreshThreads(true)
     })
-    es.addEventListener('newMessage', ev => {
-      let data = JSON.parse(ev.data)
-      let { message } = data
-      if (this.$refs.thread && message.thread_id === this.thread.id)
-        this.$refs.thread.addMessage(message)
-    })
-
-    // Resource hyperlinks
-    let value = location.hash.slice(1).split(':')[1]
-    switch (location.hash.slice(1).split(':')[0]) {
-      case 'user':
-        this.user = value
-        this.removeHash()
-        break
-      case 'thread':
-        this.thread = value
-        break
-    }
-    this.removeHash()
   }
 }
 </script>

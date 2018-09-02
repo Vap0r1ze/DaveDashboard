@@ -1,7 +1,10 @@
 <template>
   <div>
-    <Category v-for="d in categories" :key="d[1]" :category="d"
-      :selected="category === d[1]" @select="select"/>
+    <router-link v-for="d in categories" :key="d[1]" :to="`/settings/${d[1]}`"
+      class="category">
+      <Category :category="d"
+        :selected="category === d[1]" @select="select"/>
+    </router-link>
   </div>
 </template>
 
@@ -32,5 +35,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.category {
+  color: inherit;
+  text-decoration: none;
+}
 </style>

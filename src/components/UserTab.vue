@@ -1,6 +1,8 @@
 <template>
-  <div class="user font-medium select-none my-2" :class="{ selected }" @click="select">
-    <User :user="user.name" :selected="selected"/>
+  <div class="user-container flex items-center">
+    <div class="user flex-1 font-medium select-none px-3 py-2" :class="{ selected }" @click="select">
+      <User :user="user.name" :selected="selected"/>
+    </div>
   </div>
 </template>
 
@@ -28,10 +30,13 @@ export default {
 <style lang="scss" scoped>
 @import '../variables.scss';
 
+.user-container {
+  height: 40px;
+}
 .user {
   cursor: pointer;
   border-radius: $spacing * .25rem;
-  padding: $spacing * .5rem $spacing * .725rem;
+  // padding: $spacing * .5rem $spacing * .725rem;
   transition: padding 0.3s ease, border-radius 0.3s ease;
 }
 .user:hover:not(.selected) {
