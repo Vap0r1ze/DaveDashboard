@@ -1,8 +1,8 @@
 <template>
   <div class="settings scroller h-full px-16 pt-4">
-    <SettingsThemes v-if="category === 'themes'" :current="settings.theme"
+    <SettingsThemes v-if="$route.params.category === 'themes'" :current="settings.theme"
       @changeSetting="changeSetting"/>
-    <SettingsValues v-for="d in categories" v-if="d[1] === category" :key="d[1]"
+    <SettingsValues v-for="d in categories" v-if="d[1] === $route.params.category" :key="d[1]"
       :settings="settings" :category="d" @changeSetting="changeSetting"/>
   </div>
 </template>

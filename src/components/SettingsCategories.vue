@@ -1,10 +1,10 @@
 <template>
   <div>
-    <router-link v-for="d in categories" :key="d[1]" :to="`/settings/${d[1]}`"
+    <div v-for="d in categories" :key="d[1]"
       class="category">
       <Category :category="d"
-        :selected="category === d[1]" @select="select"/>
-    </router-link>
+        :selected="$route.params.category === d[1]" @select="select"/>
+    </div>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
   methods: {
     select (category) {
       this.$emit('select', category)
+      this.$router.replace(`/settings/${category}`)
     }
   }
 }

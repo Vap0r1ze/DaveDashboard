@@ -6,14 +6,14 @@
           @click="collapse">
           <i class="text-xl global-trans-ignore fa fa-arrow-left"></i>
         </div>
-        <router-link v-if="$route.name === 'settings'" to="/"
+        <div v-if="$route.name === 'settings'" @click="goBack"
           class="btn-threads flex flex-1 items-center justify-center w-8 h-8">
           <i class="fa fa-users"></i>
-        </router-link>
-        <router-link v-else :to="`/settings/${settingsCategory}`"
+        </div>
+        <div v-else @click="openSettings"
           class="btn-settings flex flex-1 items-center justify-center w-8 h-8">
           <i class="text-xl fa fa-cog"></i>
-        </router-link>
+        </div>
       </div>
       <div v-if="$route.name === 'settings'" class="area-title flex-1 flex justify-center items-center">
         <p class="text-3xl select-none">Settings</p>
@@ -75,6 +75,16 @@ export default {
     },
     selectCategory (category) {
       this.$emit('selectCategory', category)
+    },
+    openSettings () {
+      this.$router.push(`/settings/${this.settingsCategory}`)
+    },
+    goBack () {
+      this.$router.go(-1)
+      setTimeout(() => {
+        if (this.$route.name === 'settings')
+          this.goBack()
+      })
     }
   }
 }
