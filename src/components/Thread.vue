@@ -223,8 +223,8 @@ export default {
       color: themed('primary');
     }
     background: themed('bg-dark-3');
+    color: themed('text');
   }
-  color: #fff;
   cursor: pointer;
 }
 .btnBack {

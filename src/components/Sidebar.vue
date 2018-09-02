@@ -100,8 +100,8 @@ export default {
 .btn-settings, .btn-threads {
   @include themify {
     background: themed('bg-dark-3');
+    color: themed('text');
   }
-  color: #fff;
   cursor: pointer;
   text-decoration: none;
 }
