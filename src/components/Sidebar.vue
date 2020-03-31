@@ -81,10 +81,12 @@ export default {
     },
     goBack () {
       this.$router.go(-1)
+      /*
       setTimeout(() => {
         if (this.$route.name === 'settings')
           this.goBack()
       })
+      */
     }
   }
 }
