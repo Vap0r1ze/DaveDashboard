@@ -81,10 +81,6 @@ export default {
     },
     goBack () {
       this.$router.go(-1)
-      setTimeout(() => {
-        if (this.$route.name === 'settings')
-          this.goBack()
-      })
     }
   }
 }
@@ -133,7 +129,7 @@ export default {
   padding: 0 12px;
   margin: 1px;
 }
-.area-title.flex-1.flex.justify-center.items-center{
+.area-title.flex-1.flex.justify-center.items-center {
   padding: 12px 0;
 }
 </style>

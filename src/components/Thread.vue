@@ -108,7 +108,7 @@ export default {
       switch (message.message_type) {
         case 1:
           let ageMatch = message.body.match(/account age \*\*(.+?)\*\*/i)
-          let noteMatch = message.body.match(/\*\*note:\*\* (.+)\n/i)
+          let noteMatch = message.body.match(/\*\*note:\*\* (.+) \- /i)
           if (ageMatch)
             this.accountAge = ageMatch[1]
           if (noteMatch) {
