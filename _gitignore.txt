@@ -1,0 +1,9 @@
+# IDE
+.vs
+.vscode
+
+# Node
+node_modules
+
+# Dist
+dist
