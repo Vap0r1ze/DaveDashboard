@@ -120,4 +120,11 @@ export default {
   }
   width: 2rem;
 }
+.text-3xl.select-none {
+  padding: 0 12px;
+  margin: 1px;
+}
+.area-title.flex-1.flex.justify-center.items-center {
+  padding: 12px 0;
+}
 </style>

@@ -148,6 +148,7 @@ code {
 .scroller, .scroller-small {
   overflow-y: scroll;
 }
+* { min-height: 0 }
 .scroller::-webkit-scrollbar { width: 10px; height: 10px; }
 .scroller::-webkit-scrollbar-thumb {
   @include themify {
