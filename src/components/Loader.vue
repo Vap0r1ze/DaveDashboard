@@ -4,20 +4,18 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .lds-ring {
   background: {
+    color: #2f3136;
     image: $load-img;
     position: center;
     size: 150px;
     repeat: no-repeat;
   }
+  border-radius: 50%;
   transition: transform 0.3s ease;
   display: inline-block;
   width: 160px;
@@ -49,9 +47,9 @@ export default {};
 }
 .lds-ring:hover {
   transform: scale(1.3);
-  background: {
-    image: $load-img-2;
-  }
+  // background: {
+  //   image: $load-img-2;
+  // }
 }
 
 @keyframes lds-ring {

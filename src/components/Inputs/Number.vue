@@ -1,7 +1,6 @@
 <template>
   <div class="inline-block">
-    <input class="rounded" :class="{ invalid }" type="text"
-      v-model="value" @input="change" spellcheck="false">
+    <input class="rounded" :class="{ invalid }" type="text" v-model="value" @input="change" spellcheck="false">
   </div>
 </template>
 

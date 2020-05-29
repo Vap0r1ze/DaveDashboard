@@ -1,15 +1,15 @@
 <template>
   <div class="settings scroller h-full px-16 pt-4">
-    <SettingsThemes v-if="$route.params.category === 'themes'" :current="settings.theme"
-      @changeSetting="changeSetting"/>
-    <SettingsValues v-for="d in categories" v-if="d[1] === $route.params.category" :key="d[1]"
-      :settings="settings" :category="d" @changeSetting="changeSetting"/>
+    <settings-themes v-if="$route.params.category === 'themes'" :current="settings.theme"
+    @changeSetting="changeSetting"/>
+    <settings-values v-for="d in categories" v-if="d[1] === $route.params.category" :key="d[1]"
+    :settings="settings" :category="d" @changeSetting="changeSetting"/>
   </div>
 </template>
 
 <script>
-import SettingsThemes from './SettingsThemes.vue'
-import SettingsValues from './SettingsValues.vue'
+import SettingsThemes from '@/components/Settings/SettingsThemes.vue'
+import SettingsValues from '@/components/Settings/SettingsValues.vue'
 
 export default {
   components: {
@@ -51,7 +51,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../variables.scss';
-</style>

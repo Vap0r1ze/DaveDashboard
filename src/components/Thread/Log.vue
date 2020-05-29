@@ -6,11 +6,10 @@
       </div>
       <div class="flex-1">
         <p class="mb-3">
-          <User class="font-semibold mr-2" :user="log.user_name" :reply="log.type === 4"/>
+          <user class="font-semibold mr-2" :user="log.user_name" :reply="log.type === 4"/>
           <span class="timestamp">{{formattedTime}}</span>
         </p>
-          <div v-for="msg in log.messages" class="mt-2"
-            :key="msg.id">
+          <div v-for="msg in log.messages" class="mt-2" :key="msg.id">
             <div class="flex">
               <div class="message flex-1" v-html="msg.body"></div>
               <div v-if="settings.devMode && msg.dm_id" class="pl-3">
@@ -24,7 +23,7 @@
 </template>
 
 <script>
-import User from './User.vue'
+import User from '@/components/User.vue'
 
 export default {
   components: {
@@ -45,7 +44,7 @@ export default {
       let id = this.settings.daveAvi && !(log.type === 4)
         ? botID
         : log.user_id
-      let url = `${baseURL}/avatars/${id}`
+      let url = `${process.env.VUE_APP_BASE}/avatars/${id}`
       if (this.animated)
         url += '?format=gif'
       return url
@@ -65,7 +64,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .avatar {
   border-radius: 50%;

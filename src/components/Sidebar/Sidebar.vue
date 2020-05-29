@@ -1,34 +1,29 @@
 <template>
   <div class="sidebar global-trans-ignore flex flex-col h-screen w-64" :class="{ collapsed }">
-    <div class="flex">
+    <div class="flex h-16">
       <div class="flex flex-col select-none">
-        <div class="btn-collapse flex flex-1 items-center justify-center w-8 h-8"
-          @click="collapse">
+        <div class="btn-collapse flex flex-1 items-center justify-center w-8 h-8" @click="collapse">
           <i class="text-xl global-trans-ignore fa fa-arrow-left"></i>
         </div>
         <div v-if="$route.name === 'settings'" @click="goBack"
-          class="btn-threads flex flex-1 items-center justify-center w-8 h-8">
+        class="btn-threads flex flex-1 items-center justify-center w-8 h-8">
           <i class="fa fa-users"></i>
         </div>
-        <div v-else @click="openSettings"
-          class="btn-settings flex flex-1 items-center justify-center w-8 h-8">
+        <div v-else @click="openSettings" class="btn-settings flex flex-1 items-center justify-center w-8 h-8">
           <i class="text-xl fa fa-cog"></i>
         </div>
       </div>
       <div v-if="$route.name === 'settings'" class="area-title flex-1 flex justify-center items-center">
         <p class="text-3xl select-none">Settings</p>
       </div>
-      <UserSearch v-else :_search="search" @update="updateSearch"/>
+      <user-search v-else :_search="search" @update="updateSearch"/>
     </div>
     <div v-if="collapsed"></div>
-    <SettingsCategories v-else-if="$route.name === 'settings'" :category="settingsCategory"
-      @select="selectCategory"/>
-    <NoUsers v-else-if="!this.searchedUsers.length"/>
-    <virtual-scroller v-else :items="searchedUsers" item-height="40"
-      class="scroller-small flex-1 px-2">
+    <settings-categories v-else-if="$route.name === 'settings'" :category="settingsCategory" @select="selectCategory"/>
+    <no-users v-else-if="!this.searchedUsers.length"/>
+    <virtual-scroller v-else :items="searchedUsers" item-height="40" class="scroller-small flex-1 px-2">
       <template slot-scope="props">
-        <UserTab :selected="selected === props.item.id" :user="props.item"
-          @selectUser="selectUser"/>
+        <user-tab :selected="selected === props.item.id" :user="props.item" @selectUser="selectUser"/>
       </template>
     </virtual-scroller>
   </div>
@@ -38,7 +33,7 @@
 import UserTab from './UserTab.vue'
 import UserSearch from './UserSearch.vue'
 import NoUsers from './NoUsers.vue'
-import SettingsCategories from './SettingsCategories.vue'
+import SettingsCategories from '@/components/Settings/SettingsCategories.vue'
 
 export default {
   components: {
@@ -80,18 +75,14 @@ export default {
       this.$router.push(`/settings/${this.settingsCategory}`)
     },
     goBack () {
-      this.$router.go(-1)
-      setTimeout(() => {
-        if (this.$route.name === 'settings')
-          this.goBack()
-      })
+      this.$router.push('/')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .sidebar {
   @include themify {

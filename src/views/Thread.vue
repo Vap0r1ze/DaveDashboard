@@ -2,72 +2,70 @@
   <div class="h-screen flex flex-col">
     <div v-if="thread" class="flex-1 flex flex-col">
       <div class="top-bar h-16 flex">
-        <div class="btnBack w-8 select-none flex items-center justify-center"
-          @click="close">
+        <div class="btnBack w-8 select-none flex items-center justify-center" @click="close">
           <i class="text-xl fa fa-times"></i>
         </div>
         <div class="w-8 select-none flex flex-col">
-          <div class="btnMsgToggle tippy-r select-none flex-1 flex items-center justify-center"
-            :class="{ on: showMessages }" title="Toggle Channel Messages" @click="toggleMsgs">
+          <div class="btnMsgToggle tippy-r select-none flex-1 flex items-center justify-center" :class="{ on: showMessages }"
+          title="Toggle Channel Messages" @click="toggleMsgs">
             <i class="text-lg fa fa-check"></i>
           </div>
           <div :title="'Copy Thread ID'" :data-clipboard-text="thread.id"
-            class="btnOther copyBtn tippy-r flex-1 flex items-center justify-center">
+          class="btnOther copyBtn tippy-r flex-1 flex items-center justify-center">
             <i class="fa fa-clone"></i>
           </div>
         </div>
         <div class="flex-1 flex items-center px-4">
           <p class="text-4xl mr-3">
-            <User class="tippy-b-lg" :title="`Account Age: ${accountAge || '[ Not Found ]'}`"
-              :user="thread.user_name"/>
+            <user class="tippy-b-lg" :title="`Account Age: ${accountAge || '[ Not Found ]'}`" :user="thread.user_name"/>
           </p>
           <div v-if="note" class="note h-12 flex items-center pl-3">
             <p class="text-sm" ref="note">{{ note }}</p>
           </div>
         </div>
         <div v-if="settings.devMode" class="flex flex-col w-8">
-          <div class="btnOther copyBtn tippy-l flex-1 w-8 select-none flex items-center justify-center"
-            :title="'Copy User ID'" :data-clipboard-text="thread.user_id">
+          <div class="btnOther copyBtn tippy-l flex-1 w-8 select-none flex items-center justify-center" :title="'Copy User ID'"
+          :data-clipboard-text="thread.user_id">
             <i class="text-lg fa fa-user"></i>
           </div>
-          <div class="btnOther copyBtn tippy-l flex-1 w-8 select-none flex items-center justify-center"
-            :title="'Copy Channel ID'" :data-clipboard-text="thread.dm_channel_id">
+          <div class="btnOther copyBtn tippy-l flex-1 w-8 select-none flex items-center justify-center" :title="'Copy Channel ID'"
+          :data-clipboard-text="thread.dm_channel_id">
             <i class="fa fa-hashtag"></i>
           </div>
         </div>
       </div>
       <div v-if="initialMessages && logs.length" class="flex-1 scroller px-8 flex relative" ref="logs" @scroll="updateScroll">
         <div class="flex-1">
-          <Log v-for="log in logs" v-if="showMessages === (log.type === 2)" :key="log.id"
-            :log="log" :settings="settings"/>
+          <log v-for="log in logs" v-if="showMessages === (log.type === 2)" :key="log.id" :log="log" :settings="settings"/>
         </div>
       </div>
-      <Loader class="flex-1" v-else-if="!initialMessages"/>
-      <NoLogs v-else/>
+      <loader class="flex-1" v-else-if="!initialMessages"/>
+      <no-logs v-else/>
       <div v-if="!atBottom" :class="{ long: collapsed }" @click="scrollToBottom"
-        class="scroll-bottom global-trans-ignore h-6 flex items-center rounded-t select-none">
+      class="scroll-bottom global-trans-ignore h-6 flex items-center rounded-t select-none">
         <p class="desc text-sm flex-1 px-2">You&apos;re viewing older messages</p>
         <p class="action text-xs font-semibold px-2">Jump to Bottom</p>
       </div>
       <div v-if="unread > 0" :class="{ long: collapsed }"
-        class="new-messages global-trans-ignore h-6 flex items-center rounded-b select-none">
+      class="new-messages global-trans-ignore h-6 flex items-center rounded-b select-none">
         <p class="desc flex-1 px-2" @click="scrollToBottom">{{ unread }} new message{{ unread > 1 ? 's' : ''}}</p>
         <p class="action text-sm font-semibold px-2" @click="unread = 0">Mark as Read</p>
       </div>
     </div>
-    <Loader v-else class="h-screen"/>
+    <loader v-else class="h-screen"/>
   </div>
 </template>
 
 <script>
-import Log from './Log.vue'
-import User from './User.vue'
-import Loader from './Loader.vue'
-import NoLogs from './NoLogs.vue'
+import twemoji from 'twemoji'
+import User from '@/components/User.vue'
+import Loader from '@/components/Loader.vue'
+import NoLogs from '@/components/Thread/NoLogs.vue'
+import Log from '@/components/Thread/Log.vue'
 
 export default {
   components: {
-    Log, User, Loader, NoLogs
+    User, Loader, NoLogs, Log
   },
   props: {
     _thread: Object,
@@ -173,7 +171,7 @@ export default {
       this.showMessages = !this.showMessages
     },
     getLogs () {
-      superagent.get(`${baseURL}/logs/${this.thread.id}`).end((err, res) => {
+      superagent.get(`${process.env.VUE_APP_BASE}/logs/${this.thread.id}`).end((err, res) => {
         if (err) {
           console.log(err)
         } else {
@@ -193,10 +191,10 @@ export default {
   },
   created () {
     es.addEventListener('newMessage', this.newMessage)
-    if (this.thread)
+    if (this.thread) {
       this.getLogs()
-    else
-      superagent.get(`${baseURL}/threads/${this.$route.params.id}`).end((err, res) => {
+    } else {
+      superagent.get(`${process.env.VUE_APP_BASE}/threads/${this.$route.params.id}`).end((err, res) => {
         if (err) {
           if (res.status === 404)
             this.$router.push('/')
@@ -207,12 +205,13 @@ export default {
           this.getLogs()
         }
       })
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .top-bar {
   @include themify {

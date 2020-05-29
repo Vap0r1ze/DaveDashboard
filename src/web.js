@@ -1,29 +1,5 @@
 export default function () {
-  twemoji.base = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/2.4/2/';
-  window.onload = function () {
-    new ClipboardJS('.copyBtn', {
-      text: (trigger) => {
-        return trigger.dataset.clipboardText;
-      }
-    });
-    new tippy('body', {
-      target: '.tippy'
-    });
-    new tippy('body', {
-      target: '.tippy-r',
-      placement: 'right'
-    });
-    new tippy('body', {
-      target: '.tippy-l',
-      placement: 'left'
-    });
-    new tippy('body', {
-      target: '.tippy-b-lg',
-      placement: 'bottom',
-      size: 'large'
-    });
-  };
-  window.es = new EventSource(baseURL + '/stream');
+  window.es = new EventSource(process.env.VUE_APP_BASE + '/stream');
   var rolesCache = [];
   var usersCache = [];
   var channelsCache = [];

@@ -2,10 +2,8 @@
   <div class="section">
     <p class="section-title">Themes</p>
     <div class="theme-selector">
-      <div v-for="theme in themes" class="inline-block justify-center px-8 mb-4"
-        :key="theme[1]" :class="themeName(theme[1])">
-        <div class="theme text-center inline-block" @click="selectTheme(theme[1])"
-          :class="{ current: current === theme[1] }">
+      <div v-for="theme in themes" class="inline-block justify-center px-8 mb-4" :key="theme[1]" :class="themeName(theme[1])">
+        <div class="theme text-center inline-block" @click="selectTheme(theme[1])" :class="{ current: current === theme[1] }">
           <div class="theme-preview w-48 rounded-lg h-32 mb-4 mx-auto flex select-none">
             <div class="sidebar rounded-l-lg h-full w-12"></div>
             <div class="content px-4 h-full flex-1 flex flex-col py-2">
@@ -62,7 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .theme {
   cursor: pointer;

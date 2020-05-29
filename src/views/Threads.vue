@@ -29,25 +29,26 @@
         <th>Closed By</th>
       </thead>
       <tbody>
-        <ThreadRow v-for="thread in threads" :key="thread.id"
+        <thread-row v-for="thread in threads" :key="thread.id"
           :thread="thread" :settings="settings" @open="openThread"/>
         <tr v-if="!threads.length" class="loader">
           <td colspan="4" :style="{ height: `${settings.pageSize * 2}rem` }">
-            <Loader/>
+            <loader/>
           </td>
         </tr>
       </tbody>
     </table>
-    <Paginator v-if="pageCount > 1" :pageCount="pageCount"
+    <paginator v-if="pageCount > 1" :pageCount="pageCount"
       :page="page" @select="selectPage"/>
     <p class="result-count font-semibold text-center">{{ threads.length }} out of {{ threadCount }} results</p>
   </div>
 </template>
 
 <script>
-import ThreadRow from './ThreadRow.vue'
-import Paginator from './Paginator.vue'
-import Loader from './Loader.vue'
+import superagent from 'superagent'
+import ThreadRow from '@/components/Threads/ThreadRow.vue'
+import Paginator from '@/components/Threads/Paginator.vue'
+import Loader from '@/components/Loader.vue'
 
 export default {
   components: {
@@ -104,7 +105,7 @@ export default {
         q += `&user=${this.user}`
       if (this.reverse)
         q += '&reverse'
-      superagent.get(`${baseURL}/threads${q}`).end((err, res) => {
+      superagent.get(`${process.env.VUE_APP_BASE}/threads${q}`).end((err, res) => {
         if (err) {
           console.log(err)
         } else {
@@ -131,7 +132,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 table {
   border-collapse: separate;

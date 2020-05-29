@@ -12,15 +12,14 @@
     </td>
     <td>
       <span v-if="thread.scheduled_close_name">
-        <User :user="thread.scheduled_close_name"/>
+        <user :user="thread.scheduled_close_name"/>
       </span>
     </td>
   </tr>
 </template>
 
 <script>
-import User from './User.vue'
-import { setInterval } from 'timers';
+import User from '@/components/User.vue'
 
 export default {
   components: {
@@ -59,15 +58,14 @@ export default {
     if (this.settings.timeRelative) {
       this.updateRelativeTime()
     } else {
-      this.formattedTime = moment.utc(this.thread.created_at).local()
-        .format(this.settings.timeFormat)
+      this.formattedTime = moment.utc(this.thread.created_at).local().format(this.settings.timeFormat)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .thread-id {
   & code {

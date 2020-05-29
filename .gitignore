@@ -1,12 +1,5 @@
-# IDE
 .vs
 .vscode
-
-# Node
-node_modules
-
-# Config
-src/config.js
-
-# Dist
-dist
+/node_modules
+.env
+/dist

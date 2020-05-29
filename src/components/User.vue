@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import twemoji from 'twemoji'
+
 export default {
   props: {
     user: { type: String, required: true },
@@ -51,7 +53,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .discrim {
   @include themify { color: themed('text-muted'); }

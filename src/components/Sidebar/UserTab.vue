@@ -1,13 +1,13 @@
 <template>
   <div class="user-container flex items-center">
     <div class="user flex-1 font-medium select-none px-3 py-2" :class="{ selected }" @click="select">
-      <User :user="user.name" :selected="selected"/>
+      <user :user="user.name" :selected="selected"/>
     </div>
   </div>
 </template>
 
 <script>
-import User from './User.vue'
+import User from '@/components/User.vue'
 
 export default {
   components: {
@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .user-container {
   height: 40px;
