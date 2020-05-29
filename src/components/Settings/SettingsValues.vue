@@ -6,12 +6,12 @@
         <p class="setting-title text-lg">{{ setting[0] }}</p>
         <p class="setting-desc mt-1" v-html="setting[2]"></p>
         <div class="mt-4">
-          <NumberInput v-if="setting[3].type === Number" :initial="settings[setting[1]]" :setting="setting[1]"
-            :min="setting[3].min" :max="setting[3].max" @change="changeSetting"/>
-          <StringInput v-if="setting[3].type === String" :initial="settings[setting[1]]" :setting="setting[1]"
-            :min="setting[3].min" :max="setting[3].max" @change="changeSetting"/>
-          <BooleanInput v-if="setting[3].type === Boolean" :initial="settings[setting[1]]" :setting="setting[1]"
-            @change="changeSetting"/>
+          <number-input v-if="setting[3].type === Number" :initial="settings[setting[1]]" :setting="setting[1]"
+          :min="setting[3].min" :max="setting[3].max" @change="changeSetting"/>
+          <string-input v-if="setting[3].type === String" :initial="settings[setting[1]]" :setting="setting[1]"
+          :min="setting[3].min" :max="setting[3].max" @change="changeSetting"/>
+          <boolean-input v-if="setting[3].type === Boolean" :initial="settings[setting[1]]" :setting="setting[1]"
+          @change="changeSetting"/>
         </div>
       </div>
     </div>
@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import NumberInput from './Inputs/Number.vue'
-import StringInput from './Inputs/String.vue'
-import BooleanInput from './Inputs/Boolean.vue'
+import NumberInput from '@/components/Inputs/Number.vue'
+import StringInput from '@/components/Inputs/String.vue'
+import BooleanInput from '@/components/Inputs/Boolean.vue'
 
 export default {
   components: {
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .setting-desc {
   @include themify {

@@ -2,8 +2,7 @@
   <div class="searchbar h-16 p-3">
     <div class="search px-3 rounded h-full flex items-center justify-center">
       <div class="flex-1">
-        <input class="w-full text-xl" type="text" spellcheck="false"
-          placeholder="Search" v-model="search" @input="update">
+        <input class="w-full text-xl" type="text" spellcheck="false" placeholder="Search" v-model="search" @input="update">
       </div>
       <div v-show="search" class="clear" @click="clear">
         <i class="fa fa-times"></i>
@@ -35,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .searchbar {
   @include themify {

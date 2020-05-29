@@ -1,8 +1,6 @@
 <template>
-  <div class="toggle global-trans-ignore rounded-full inline-block w-16 h-8"
-    :class="{ on: value }" @click="change">
-    <div class="toggleSwitch global-trans-ignore h-8 w-8 rounded-full"
-      :class="{ 'ml-8': value }"></div>
+  <div class="toggle global-trans-ignore rounded-full inline-block w-16 h-8" :class="{ on: value }" @click="change">
+    <div class="toggleSwitch global-trans-ignore h-8 w-8 rounded-full" :class="{ 'ml-8': value }"></div>
   </div>
 </template>
 

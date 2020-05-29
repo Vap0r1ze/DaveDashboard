@@ -1,15 +1,13 @@
 <template>
   <div id="app-root" :class="themeName">
     <div class="app">
-      <Loader class="h-screen" v-if="!connected"/>
+      <loader class="h-screen" v-if="!connected"/>
       <div class="flex" v-else>
-        <Sidebar :users="users" :selected="user"
-          :settingsCategory="settingsCategory" @selectUser="selectUser"
-          @selectCategory="selectCategory" ref="sidebar"/>
+        <sidebar :users="users" :selected="user" :settingsCategory="settingsCategory" @selectUser="selectUser"
+        @selectCategory="selectCategory" ref="sidebar"/>
         <div class="flex-1 h-screen">
-          <router-view :_thread="thread" :settings="settings" :category="settingsCategory"
-            :user="user"
-            @changeSetting="changeSetting" @close="openThread(null)" @openThread="openThread"/>
+          <router-view :_thread="thread" :settings="settings" :category="settingsCategory" :user="user"
+          @changeSetting="changeSetting" @close="openThread(null)" @openThread="openThread"/>
         </div>
       </div>
     </div>
@@ -17,7 +15,8 @@
 </template>
 
 <script>
-import Sidebar from './components/Sidebar.vue'
+import superagent from 'superagent'
+import Sidebar from './components/Sidebar/Sidebar.vue'
 import Loader from './components/Loader.vue'
 
 export default {
@@ -84,10 +83,11 @@ export default {
   },
   created () {
     // Initial users
-    superagent.get(baseURL + '/users').end((err, res) => {
+    superagent.get(process.env.VUE_APP_BASE + '/users').end((err, res) => {
       if (err) {
         console.log(err)
       } else {
+        console.log(res.body)
         this.users.push(...res.body)
         this.connected = true
       }

@@ -1,15 +1,45 @@
 import Vue from 'vue'
 import App from './App.vue'
-import "vue-virtual-scroller/dist/vue-virtual-scroller.css"
-import VueVirtualScroller from "vue-virtual-scroller"
 import router from './router'
 
-import config from './config.js'
-import web from './web.js'
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css"
+import VueVirtualScroller from "vue-virtual-scroller"
 
-Vue.config.productionTip = false
-Object.assign(window, config)
+// twemoji
+import twemoji from 'twemoji'
+twemoji.base = 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/2.4/2/'
+
+// Clipboard.js
+import ClipboardJS from 'clipboard'
+new ClipboardJS('.copyBtn', {
+  text: (trigger) => {
+    return trigger.dataset.clipboardText;
+  }
+})
+
+import tippy from 'tippy.js'
+new tippy('body', {
+  target: '.tippy'
+})
+new tippy('body', {
+  target: '.tippy-r',
+  placement: 'right'
+})
+new tippy('body', {
+  target: '.tippy-l',
+  placement: 'left'
+})
+new tippy('body', {
+  target: '.tippy-b-lg',
+  placement: 'bottom',
+  size: 'large'
+})
+
+import web from './web'
 web()
+
+window.es = new EventSource(process.env.VUE_APP_BASE + '/stream')
+Vue.config.productionTip = false
 
 Vue.use(VueVirtualScroller)
 

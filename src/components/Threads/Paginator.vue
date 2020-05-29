@@ -1,15 +1,13 @@
 <template>
   <div class="paginator select-none flex justify-center my-4">
-    <div class="btnPage" :class="{ hidden: page < 2 }"
-        @click="prev">
+    <div class="btnPage" :class="{ hidden: page < 2 }" @click="prev">
       <i class="fa fa-chevron-left text-sm"></i>
     </div>
-    <div v-for="i in displayedPages" :key="i" class="btnPage global-trans-ignore"
-      :class="{ current: page === i }" @click="select(i)">
+    <div v-for="i in displayedPages" :key="i" class="btnPage global-trans-ignore" :class="{ current: page === i }"
+    @click="select(i)">
       <span>{{i}}</span>
     </div>
-    <div class="btnPage" :class="{ hidden: page >= pageCount }"
-      @click="next">
+    <div class="btnPage" :class="{ hidden: page >= pageCount }" @click="next">
       <i class="fa fa-chevron-right text-sm"></i>
     </div>
   </div>
@@ -67,7 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../variables.scss';
+@import '@/variables.scss';
 
 .btnPage {
   @include themify {

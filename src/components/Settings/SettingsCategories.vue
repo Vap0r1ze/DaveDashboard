@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div v-for="d in categories" :key="d[1]"
-      class="category">
-      <Category :category="d"
-        :selected="$route.params.category === d[1]" @select="select"/>
+    <div v-for="d in categories" :key="d[1]" class="category">
+      <category :category="d" :selected="$route.params.category === d[1]" @select="select"/>
     </div>
   </div>
 </template>
