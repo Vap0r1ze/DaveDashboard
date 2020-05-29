@@ -14,7 +14,7 @@
     "clipboard": "^2.0.4",
     "date-fns": "^1.29.0",
     "eventsource": "^1.0.7",
-    "simple-markdown": "^0.4.2",
+    "simple-markdown": "^0.7.2",
     "superagent": "^4.0.0",
     "tailwindcss": "^0.7.2",
     "tippy.js": "^3.2.0",
@@ -23,8 +23,8 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.9.3",
-    "node-sass": "^4.9.0",
+    "@vue/cli-service": "^4.4.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.16",
     "vue-virtual-scroller": "^0.12.0"
