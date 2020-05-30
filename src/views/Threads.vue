@@ -105,7 +105,7 @@ export default {
         q += `&user=${this.user}`
       if (this.reverse)
         q += '&reverse'
-      superagent.get(`${process.env.VUE_APP_BASE}/threads${q}`).end((err, res) => {
+      superagent.get(`/threads${q}`).end((err, res) => {
         if (err) {
           console.log(err)
         } else {

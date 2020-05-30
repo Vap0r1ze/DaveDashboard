@@ -31,7 +31,7 @@ export default {
       connected: false,
       theme: JSON.parse(localStorage.theme || '0') || 'dark',
       pageSize: JSON.parse(localStorage.pageSize || '15'),
-      timeFormat: JSON.parse(localStorage.timeFormat || '"YYYY-MM-DD HH:mm:ss"'),
+      timeFormat: JSON.parse(localStorage.timeFormat || '"yyyy-MM-dd HH:mm:ss"'),
       timeRelative: JSON.parse(localStorage.timeRelative || 'false'),
       daveAvi: JSON.parse(localStorage.daveAvi || 'false'),
       devMode: JSON.parse(localStorage.devMode || 'false'),
@@ -83,11 +83,10 @@ export default {
   },
   created () {
     // Initial users
-    superagent.get(process.env.VUE_APP_BASE + '/users').end((err, res) => {
+    superagent.get('/users').end((err, res) => {
       if (err) {
         console.log(err)
       } else {
-        console.log(res.body)
         this.users.push(...res.body)
         this.connected = true
       }

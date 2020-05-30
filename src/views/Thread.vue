@@ -10,7 +10,7 @@
           title="Toggle Channel Messages" @click="toggleMsgs">
             <i class="text-lg fa fa-check"></i>
           </div>
-          <div :title="'Copy Thread ID'" :data-clipboard-text="thread.id"
+          <div title="Copy Thread ID" :data-clipboard-text="thread.id"
           class="btnOther copyBtn tippy-r flex-1 flex items-center justify-center">
             <i class="fa fa-clone"></i>
           </div>
@@ -57,11 +57,15 @@
 </template>
 
 <script>
+import { format, utcToZonedTime } from 'date-fns-tz'
+import superagent from 'superagent'
 import twemoji from 'twemoji'
 import User from '@/components/User.vue'
 import Loader from '@/components/Loader.vue'
 import NoLogs from '@/components/Thread/NoLogs.vue'
 import Log from '@/components/Thread/Log.vue'
+
+const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 export default {
   components: {
@@ -106,7 +110,7 @@ export default {
       switch (message.message_type) {
         case 1:
           let ageMatch = message.body.match(/account age \*\*(.+?)\*\*/i)
-          let noteMatch = message.body.match(/\*\*note:\*\* (.+) \- /i)
+          let noteMatch = message.body.match(/\*\*note:\*\* (.+)\n/i)
           if (ageMatch)
             this.accountAge = ageMatch[1]
           if (noteMatch) {
@@ -120,8 +124,8 @@ export default {
           if (this.logs.length && (
             this.logs.slice(-1)[0].user_id === message.user_id
             && (this.logs.slice(-1)[0].type === message.message_type)
-            && moment.utc(message.created_at).local().format('YYMMDDHH')
-              === moment.utc(this.logs.slice(-1)[0].created_at).local().format('YYMMDDHH')
+            && format(utcToZonedTime(new Date(message.created_at + 'Z'), timeZone), 'yyMMddHH')
+              === format(utcToZonedTime(new Date(this.logs.slice(-1)[0].created_at + 'Z'), timeZone), 'yyMMddHH')
           )) {
             this.logs.slice(-1)[0].messages.push({
               id: message.id,
@@ -171,7 +175,7 @@ export default {
       this.showMessages = !this.showMessages
     },
     getLogs () {
-      superagent.get(`${process.env.VUE_APP_BASE}/logs/${this.thread.id}`).end((err, res) => {
+      superagent.get(`/logs/${this.thread.id}`).end((err, res) => {
         if (err) {
           console.log(err)
         } else {
@@ -194,7 +198,7 @@ export default {
     if (this.thread) {
       this.getLogs()
     } else {
-      superagent.get(`${process.env.VUE_APP_BASE}/threads/${this.$route.params.id}`).end((err, res) => {
+      superagent.get(`/threads/${this.$route.params.id}`).end((err, res) => {
         if (err) {
           if (res.status === 404)
             this.$router.push('/')

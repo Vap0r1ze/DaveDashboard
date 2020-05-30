@@ -1,5 +1,5 @@
 export default function () {
-  window.es = new EventSource(process.env.VUE_APP_BASE + '/stream');
+  window.es = new EventSource('/stream');
   var rolesCache = [];
   var usersCache = [];
   var channelsCache = [];

@@ -19,7 +19,11 @@
 </template>
 
 <script>
+import { formatDistanceToNow } from 'date-fns'
+import { format, utcToZonedTime } from 'date-fns-tz'
 import User from '@/components/User.vue'
+
+const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 export default {
   components: {
@@ -50,7 +54,8 @@ export default {
       this.$emit('open', this.thread)
     },
     updateRelativeTime () {
-      this.formattedTime = moment.utc(this.thread.created_at).fromNow()
+      const localDate = utcToZonedTime(new Date(this.thread.created_at + 'Z'), timeZone)
+      this.formattedTime = formatDistanceToNow(localDate) + ' ago'
       setTimeout(this.updateRelativeTime, 10000)
     }
   },
@@ -58,7 +63,8 @@ export default {
     if (this.settings.timeRelative) {
       this.updateRelativeTime()
     } else {
-      this.formattedTime = moment.utc(this.thread.created_at).local().format(this.settings.timeFormat)
+      const localDate = utcToZonedTime(new Date(this.thread.created_at + 'Z'), timeZone)
+      this.formattedTime = format(localDate, this.settings.timeFormat)
     }
   }
 }

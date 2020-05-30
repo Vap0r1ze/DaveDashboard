@@ -28,7 +28,7 @@ export default {
             min: 5,
             max: 100
           } ],
-          [ 'Timestamp Format', 'timeFormat', '<a href="https://momentjs.com/docs/#/parsing/string-format/" target="_blank">Moment Format</a> to use with timestamps', {
+          [ 'Timestamp Format', 'timeFormat', '<a href="https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table" target="_blank">Unicode Date Symbols</a> to use with timestamps', {
             type: String
           } ],
           [ 'Relative Time', 'timeRelative', 'Make timestamps relative to now', {

@@ -23,7 +23,11 @@
 </template>
 
 <script>
+import { formatDistanceToNow } from 'date-fns'
+import { format, utcToZonedTime } from 'date-fns-tz'
 import User from '@/components/User.vue'
+
+const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 export default {
   components: {
@@ -44,21 +48,24 @@ export default {
       let id = this.settings.daveAvi && !(log.type === 4)
         ? botID
         : log.user_id
-      let url = `${process.env.VUE_APP_BASE}/avatars/${id}`
+      let url = `/avatars/${id}`
       if (this.animated)
         url += '?format=gif'
       return url
     },
-    updateFormattedTime () {
-      if (this.settings.timeRelative)
-        this.formattedTime = moment.utc(this.log.created_at).fromNow()
-      else
-        this.formattedTime = moment.utc(this.log.created_at).local().format(this.settings.timeFormat)
-      setTimeout(this.updateFormattedTime, 10000)
-    },
+    updateRelativeTime () {
+      const localDate = utcToZonedTime(new Date(this.log.created_at + 'Z'), timeZone)
+      this.formattedTime = formatDistanceToNow(localDate, new Date()) + ' ago'
+      setTimeout(this.updateRelativeTime, 10000)
+    }
   },
   created () {
-    this.updateFormattedTime()
+    if (this.settings.timeRelative) {
+      this.updateRelativeTime()
+    } else {
+      const localDate = utcToZonedTime(new Date(this.log.created_at + 'Z'), timeZone)
+      this.formattedTime = format(localDate, this.settings.timeFormat)
+    }
   }
 }
 </script>

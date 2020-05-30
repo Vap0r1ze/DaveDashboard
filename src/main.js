@@ -17,28 +17,30 @@ new ClipboardJS('.copyBtn', {
   }
 })
 
-import tippy from 'tippy.js'
-new tippy('body', {
-  target: '.tippy'
-})
-new tippy('body', {
-  target: '.tippy-r',
-  placement: 'right'
-})
-new tippy('body', {
-  target: '.tippy-l',
-  placement: 'left'
-})
-new tippy('body', {
-  target: '.tippy-b-lg',
-  placement: 'bottom',
-  size: 'large'
-})
+// Tippy
+// import { delegate } from 'tippy.js'
+// window.tippy = delegate
+// delegate('#app', {
+//   target: '.tippy'
+// })
+// delegate('#app', {
+//   target: '.tippy-r',
+//   placement: 'right'
+// })
+// delegate('#app', {
+//   target: '.tippy-l',
+//   placement: 'left'
+// })
+// delegate('#app', {
+//   target: '.tippy-b-lg',
+//   placement: 'bottom',
+//   size: 'large'
+// })
 
 import web from './web'
 web()
 
-window.es = new EventSource(process.env.VUE_APP_BASE + '/stream')
+window.es = new EventSource('/stream')
 Vue.config.productionTip = false
 
 Vue.use(VueVirtualScroller)
