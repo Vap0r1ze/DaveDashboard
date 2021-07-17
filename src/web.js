@@ -1,5 +1,8 @@
 export default function () {
   window.es = new EventSource('/stream');
+  window.onbeforeunload = () => {
+    es.close();
+  }
   var rolesCache = [];
   var usersCache = [];
   var channelsCache = [];
