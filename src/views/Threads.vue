@@ -1,6 +1,6 @@
 <template>
   <div class="scroller px-16 pt-4 h-full">
-    <p class="text-center text-4xl">Threads</p>
+    <p class="text-center text-4xl">{{ includePrivate ? "" : "Closed "}}Threads</p>
     <table cellspacing="0" class="my-4 w-full">
       <thead class="select-none">
         <th class="flex-inline items-center justify-center">
@@ -40,7 +40,7 @@
     </table>
     <paginator v-if="pageCount > 1" :pageCount="pageCount"
       :page="page" @select="selectPage"/>
-    <p class="result-count font-semibold text-center">{{ threads.length }} out of {{ threadCount }} results</p>
+    <p class="result-count font-semibold text-center">Showing {{ threads.length }} out of {{ threadCount }} results</p>
   </div>
 </template>
 
@@ -65,7 +65,8 @@ export default {
       pageCount: 1,
       reverse: true,
       sort: 'status',
-      threadCount: 0
+      threadCount: 0,
+      includePrivate: false
     }
   },
   watch: {
@@ -112,6 +113,7 @@ export default {
           this.pageCount = Math.ceil(res.body.total / this.settings.pageSize)
           this.threads = res.body.threads
           this.threadCount = res.body.total
+          this.includePrivate = res.body.includePrivate
         }
       })
     },
