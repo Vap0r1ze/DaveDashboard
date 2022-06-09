@@ -14,7 +14,7 @@
             </div>
           </div>
         </th>
-        <th class="flex-inline items-center justify-center">
+        <th v-if="includePrivate" class="flex-inline items-center justify-center">
           <div class="sort" @click="sortStatus">
             <span>Status</span>
             <div class="ml-2 inline-block">
