@@ -1,6 +1,6 @@
 <template>
   <div class="scroller px-16 pt-4 h-full">
-    <p class="text-center text-4xl">{{ includePrivate ? "" : "Closed "}}Threads</p>
+    <p class="text-center text-4xl">{{ includePrivate ? '' : 'Closed '}}Threads</p>
     <table cellspacing="0" class="my-4 w-full">
       <thead class="select-none">
         <th class="flex-inline items-center justify-center">
