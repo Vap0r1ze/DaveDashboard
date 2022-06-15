@@ -112,8 +112,8 @@ export default {
         case 1:
           if (message.body.startsWith('**EDITED')) break // Bandaid fix
 
-          let ageMatch = message.body.match(/ccount\sage:\*\*\s([^\n]+)/i)
-          let noteMatch = message.body.match(/last\snote[^\*]+\*\*\s(.+?)-\s\[/i)
+          let ageMatch = message.body.match(/ccount\sage[:\s]?\*\*\s?([^*]+)/i)
+          let noteMatch = message.body.match(/\n\*\*(?:last\s)?note[^\*]+\*\*\s(.+?)(?:\s-\s\[|\n)/i)
 
           if (ageMatch)
             this.accountAge = ageMatch[1]
