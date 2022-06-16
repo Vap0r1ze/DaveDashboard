@@ -8,7 +8,8 @@
         <div class="w-8 select-none flex flex-col">
           <div class="btnMsgToggle tippy-r select-none flex-1 flex items-center justify-center" :class="{ on: showMessages }"
           title="Toggle Channel Messages" @click="toggleMsgs">
-            <i class="text-lg fa fa-check"></i>
+            <i class="text-lg fa fa-comments">
+            </i>
           </div>
           <div title="Copy Thread ID" :data-clipboard-text="thread.id"
           class="btnOther copyBtn tippy-r flex-1 flex items-center justify-center">
@@ -109,8 +110,11 @@ export default {
     addMessage (message) {
       switch (message.message_type) {
         case 1:
-          let ageMatch = message.body.match(/account age \*\*(.+?)\*\*/i)
-          let noteMatch = message.body.match(/\*\*note:\*\* (.+)\n/i)
+          if (message.body.startsWith('**EDITED')) break // Bandaid fix
+
+          let ageMatch = message.body.match(/ccount\sage[:\s]?\*\*\s?([^*]+)/i)
+          let noteMatch = message.body.match(/\n\*\*(?:last\s)?note[^\*]+\*\*\s(.+?)(?:\s-\s\[|\n)/i)
+
           if (ageMatch)
             this.accountAge = ageMatch[1]
           if (noteMatch) {
